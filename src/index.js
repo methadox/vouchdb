@@ -1,34 +1,47 @@
 /**
- * @typedef {Object} MemoryNode~writeParameters
+ * @typedef {Object} VouchDB~connectParameters
  *
- * @property {Buffer} keyspace - The keyspace into which to write the key-value pair.
- * @property {Buffer} key - The key whose value to write.
- * @property {Buffer} value - The value to write for the given key.
- * @property {Buffer} parentVersion - The version of the previous key-value pair.
- * @property {Buffer} iv - The initialization vector used for the signature.
- * @property {Buffer} signature - The HMAC-SHA256 result of the IV, keyspace, key, SHA256 hash of the value, and parent version, using the private key of the keyspace's public key.
+ * @property {VouchDB} peer - The peer to which we want to connect.
  */
 
 /**
- * @typedef {Object} MemoryNode~readParameters
+ * @typedef {Object} VouchDB~disconnectParameters
+ *
+ * @property {VouchDB} peer - The peer from which we want to disconnect.
+ */
+
+/**
+ * @typedef {Object} VouchDB~readParameters
  *
  * @property {string} key - The key whose value to read.
  */
 
-class MemoryNode {
+/**
+ * @typedef {Object} VouchDB~writeParameters
+ *
+ * @property {string} key - The key whose value to write.
+ * @property {string} value - The value to write for the given key.
+ */
+
+/**
+ * A proof-of-concept for VouchDB's distributed hash table (DHT).
+ */
+class VouchDB {
   constructor() {
     this.peers = [];
     this.store = {};
   }
 
   /**
-   * We are being asked directly to connect to a peer.
+   * Connect to a VouchDB peer.
    *
-   * @param {MemoryNode} peer - The peer to which we want to connect.
+   * @param {VouchDB~connectParameters} parameters - The parameters needed to connect to a peer.
    *
    * @returns {void}
    */
-  connect(peer) {
+  connect(parameters) {
+    const { peer } = parameters;
+
     if (peer === this) {
       // Nothing to do.
       return;
@@ -42,13 +55,14 @@ class MemoryNode {
   }
 
   /**
-   * We are being asked directly to disconnect from a peer.
+   * Disconnect from a VouchDB peer.
    *
-   * @param {MemoryNode} peer - The peer from which we want to disconnect.
+   * @param {VouchDB~disconnectParameters} parameters - The parameters needed to disconnect from a peer.
    *
    * @returns {void}
    */
-  disconnect(peer) {
+  disconnect(parameters) {
+    const { peer } = parameters;
     if (peer === this) {
       // Nothing to do.
       return;
@@ -71,7 +85,7 @@ class MemoryNode {
   /**
    * A peer wants to connect to us.
    *
-   * @param {MemoryNode} peer - The peer requesting to connect.
+   * @param {VouchDB} peer - The peer requesting to connect.
    *
    * @returns {void}
    */
@@ -83,7 +97,7 @@ class MemoryNode {
   /**
    * A peer wants to disconnect from us.
    *
-   * @param {MemoryNode} peer - The peer requesting to disconnect.
+   * @param {VouchDB} peer - The peer requesting to disconnect.
    *
    * @returns {void}
    */
@@ -102,7 +116,7 @@ class MemoryNode {
   /**
    * A peer is asking us for the value of a given key.
    *
-   * @param {MemoryNode} peer - The peer attempting to read a value.
+   * @param {VouchDB} peer - The peer attempting to read a value.
    * @param {string} key - The key whose value the peer is requesting.
    *
    * @returns {void}
@@ -133,7 +147,7 @@ class MemoryNode {
   /**
    * A peer is asking us to write a key-value pair.
    *
-   * @param {MemoryNode} peer - The peer attempting to write a value.
+   * @param {VouchDB} peer - The peer attempting to write a value.
    * @param {string} key - The key whose value the peer is attempting to write.
    * @param {string} value - The value to be written.
    *
@@ -158,9 +172,9 @@ class MemoryNode {
   }
 
   /**
-   * We are being asked directly for the value of a given key.
+   * Read the value of an existing key-value pair in the network.
    *
-   * @param {MemoryNode~readParameters} parameters - The parameters needed to read a key-value pair.
+   * @param {VouchDB~readParameters} parameters - The parameters needed to read a key-value pair.
    *
    * @returns {string} Returns the value, if present, for the given key.
    */
@@ -182,9 +196,9 @@ class MemoryNode {
   }
 
   /**
-   * We are being asked directly to write a key-value pair.
+   * Write a key-value pair to the network.
    *
-   * @param {MemoryNode~writeParameters} parameters - The parameters needed to write a key-value pair.
+   * @param {VouchDB~writeParameters} parameters - The parameters needed to write a key-value pair.
    *
    * @returns {void}
    */
@@ -207,4 +221,4 @@ class MemoryNode {
   }
 }
 
-export default MemoryNode;
+export default VouchDB;

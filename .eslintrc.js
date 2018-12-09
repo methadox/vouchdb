@@ -18,23 +18,5 @@ module.exports = {
   },
   plugins: [
     'eslint-plugin-ante'
-  ],
-  rules: {
-    'id-blacklist': [
-      'error',
-      'e',
-      'el',
-      'evt'
-    ],
-    'no-magic-numbers': [
-      'error',
-      {
-        ignore: [
-          -1,
-          0,
-          1
-        ]
-      }
-    ]
-  }
+  ]
 };
