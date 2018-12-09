@@ -1,5 +1,7 @@
 # VouchDB
 
+[![CircleCI][12]][13]
+
 A distributed trust database, using heuristics and verifiable cryptography to publish and discover assertions.
 
 > 💡 **Note:** This project is currently in the _research_ phase.
@@ -69,3 +71,5 @@ Existing solutions in this space include:
 [9]: https://www.signal.org/docs/
 [10]: https://keybase.io/docs
 [11]: https://otr.cypherpunks.ca/
+[12]: https://circleci.com/gh/methadox/vouchdb.svg?style=svg
+[13]: https://circleci.com/gh/methadox/vouchdb
