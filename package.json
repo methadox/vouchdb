@@ -1,6 +1,6 @@
 {
   "name": "@methadox/vouchdb",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A distributed trust database.",
   "main": "index.js",
   "repository": "https://github.com/methadox/vouchdb",
